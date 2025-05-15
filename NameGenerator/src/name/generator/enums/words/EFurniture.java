@@ -1,0 +1,52 @@
+package name.generator.enums.words;
+
+public enum EFurniture implements EWords {
+	ARMCHAIR,
+	BAR_STOOL,
+	BENCH,
+	BOOKCASE,
+	BUNK_BED,
+	CABINET,
+	CHAIR,
+	CHEST,
+	COMMODE,
+	CORNER_SOFA,
+	COT,
+	CREDENZA,
+	CUPBOARD,
+	DESK,
+	DRAWER,
+	DRESSER,
+	FOOTSTOOL,
+	HAMMOCK,
+	HEADBOARD,
+	HIGHCHAIR,
+	LOVESEAT,
+	MANTELPIECE,
+	MIRROR,
+	NIGHTSTAND,
+	OTTOMAN,
+	PANTRY,
+	RECLINER,
+	ROCKING_CHAIR,
+	SCREEN,
+	SECRETAIRE,
+	SECTIONAL,
+	SHELF,
+	SIDEBOARD,
+	SOFA,
+	STOOL,
+	TABLE,
+	TV,
+	VANITY,
+	WARDROBE,
+	WASHSTAND,
+	WORKBENCH;
+	;
+
+	@Override
+	public EWordCategory getCategory() {
+		return EWordCategory.FURNITURE;
+	}
+
+}

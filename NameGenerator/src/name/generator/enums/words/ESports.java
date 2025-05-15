@@ -1,0 +1,48 @@
+package name.generator.enums.words;
+
+public enum ESports implements EWords {
+	ARCHERY,
+	ATHLETICS,
+	BADMINTON,
+	BASEBALL,
+	BASKETBALL,
+	BIATHLON,
+	BOBSLEIGH,
+	BOXING,
+	BREAKING,
+	CRICKET,
+	CURLING,
+	DIVING,
+	EQUESTRIAN,
+	FENCING,
+	FOOTBALL,
+	FUTSAL,
+	GOLF,
+	HANDBALL,
+	HOCKEY,
+	JUDO,
+	KARATE,
+	LACROSSE,
+	LUGE,
+	ROWING,
+	SAILING,
+	SHOOTING,
+	SKELETON,
+	SKATEBOARDING,
+	SNOWBOARD,
+	SWIMMING,
+	TAEKWONDO,
+	TENNIS,
+	TRAMPOLINE,
+	TRIATHLON,
+	VOLLEYBALL,
+	WEIGHTLIFTING,
+	WRESTLING,
+	WUSHU;
+
+	@Override
+	public EWordCategory getCategory() {
+		return EWordCategory.SPORTS;
+	}
+
+}
