@@ -11,7 +11,6 @@ public enum ESports implements EWords {
 	BOXING,
 	BREAKING,
 	CRICKET,
-	CURLING,
 	DIVING,
 	EQUESTRIAN,
 	FENCING,

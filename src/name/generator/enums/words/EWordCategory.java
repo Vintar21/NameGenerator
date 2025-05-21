@@ -16,6 +16,9 @@ public enum EWordCategory {
 	FURNITURE(EFurniture.class),
 	NATIONALITIES(ENationalities.class),
 	NUMBER(ENumber.class),
+	POKEMON(EPokemons.class),
+	RPG_CLASSES(ERpgClasses.class),
+	RPG_RACES(ERpgRaces.class),
 	SPORTS(ESports.class);
 
 	private Class<? extends EWords> words;
@@ -27,6 +30,5 @@ public enum EWordCategory {
 	public List<String> getWords(ENameCaseFormat caseFormat) {
 		return Arrays.asList(this.words.getEnumConstants()).stream()
 				.map(word -> NameGeneratorUtils.formatWord(word.toString(), caseFormat)).toList();
-
 	}
 }
