@@ -25,6 +25,8 @@ public class NameGenerator {
 	private final ENameCaseFormat caseFormat;
 	private final SecureRandom random = new SecureRandom();
 	private final List<String> usedWords = new ArrayList<>();
+	private final int retryAllowed = 2;
+	private int maxTimeStrategyTriggered = 0;
 
 	private static final Logger LOGGER = LogManager.getLogger(NameGenerator.class);
 
@@ -45,6 +47,8 @@ public class NameGenerator {
 	public Set<String> generateRandomNames(int number) {
 		Set<String> randNames = new HashSet<>();
 		IntStream.range(0, number).forEach(i -> randNames.add(getNewName(randNames)));
+		// TODO: Split strategy in different classes abstract classes...
+		LOGGER.debug("Max number of words: {}", this.wordsByName + this.maxTimeStrategyTriggered);
 		return randNames;
 	}
 
@@ -59,8 +63,22 @@ public class NameGenerator {
 
 	private String getNewName(Collection<String> alreadyGenerated) {
 		StringBuilder newName = new StringBuilder();
-		IntStream.range(0, wordsByName).map(i -> random.nextInt(usedWords.size()))
-				.forEach(x -> newName.append(usedWords.get(x)));
+		// To avoid double name
+		/*
+		 * List of available words + index draw in the available list -> if the list is
+		 * empty -> refill it and increment index --> we will then switch on the 2nd
+		 * word (if it exists) Problem: 2nd words have already been generated, we have
+		 * to store them ? Heavy in memory
+		 * 
+		 * Allow a number of retry ?
+		 */
+		var retry = 0;
+		while (newName.isEmpty() || (alreadyGenerated.contains(newName.toString()) && retry < retryAllowed)) {
+			newName.delete(0, newName.length());
+			IntStream.range(0, wordsByName).map(i -> random.nextInt(usedWords.size()))
+					.forEach(x -> newName.append(usedWords.get(x)));
+			retry++;
+		}
 
 		// If the name already exists, apply a strategy
 		if (alreadyGenerated.contains(newName.toString())) {
@@ -84,17 +102,28 @@ public class NameGenerator {
 	}
 
 	private void addNumber(StringBuilder newName, Collection<String> alreadyGenerated) {
-		int i = 2;
-		while (alreadyGenerated.contains(newName.toString())) {
+		// Start at oldName2
+		int i = 1;
+		var tmpName = newName.toString();
+		while (alreadyGenerated.contains(tmpName)) {
 			i++;
+			tmpName = newName.toString() + i;
 		}
 		newName.append(i);
+		if (this.maxTimeStrategyTriggered < i - 1) {
+			this.maxTimeStrategyTriggered = i - 1;
+		}
 	}
 
 	private void addWord(StringBuilder newName, Collection<String> alreadyGenerated) {
+		int i = 0;
 		while (alreadyGenerated.contains(newName.toString())) {
 			int x = random.nextInt(usedWords.size());
 			newName.append(usedWords.get(x));
+			i++;
+		}
+		if (this.maxTimeStrategyTriggered < i) {
+			this.maxTimeStrategyTriggered = i;
 		}
 	}
 

@@ -17,27 +17,27 @@ public class SimpleExample {
 	private static final Logger LOGGER = LogManager.getLogger(SimpleExample.class);
 
 	public static void main(String[] args) {
-		var addWordNameGenerator = NameGeneratorBuilder.getInstance().wordsByName(2).setSeed("MyAwesomeSeed")
+		var addWordNameGenerator = NameGeneratorBuilder.getInstance().wordsByName(1).setSeed("MyAwesomeSeed")
 				.setStrategy(ENameGenerationStrategy.ADD_WORD).build();
 
-		var addNumberNameGenerator = NameGeneratorBuilder.getInstance().wordsByName(2).setSeed("MyOtherAwesomeSeed")
+		var addNumberNameGenerator = NameGeneratorBuilder.getInstance().wordsByName(1).setSeed("MyOtherAwesomeSeed")
 				.setStrategy(ENameGenerationStrategy.ADD_NUMBER).build();
 
-		generateNames(addWordNameGenerator, 100);
+		generateNames(addWordNameGenerator, 500000);
 
-		generateNames(addNumberNameGenerator, 100);
+		// generateNames(addNumberNameGenerator, 1000);
 
 		List<String> initialNames = Arrays.asList("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n",
 				"o", "a", "b", "c", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z");
-		replaceNames(addWordNameGenerator, initialNames);
+		// replaceNames(addWordNameGenerator, initialNames);
 
-		replaceNames(addNumberNameGenerator, initialNames);
+		// replaceNames(addNumberNameGenerator, initialNames);
 	}
 
 	private static void generateNames(NameGenerator nameGenerator, int n) {
 		LOGGER.info(SEPARATOR);
 		LOGGER.info("{} Random Names - {}", n, nameGenerator);
-		nameGenerator.generateRandomNames(150).stream().forEach(LOGGER::info);
+		nameGenerator.generateRandomNames(n).stream().forEach(LOGGER::info);
 	}
 
 	private static void replaceNames(NameGenerator nameGenerator, List<String> initialNames) {
