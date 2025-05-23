@@ -1,2 +1,4 @@
 /target/
 logs/*.log
+/eclipse-ssh
+/eclipse-ssh.pub
