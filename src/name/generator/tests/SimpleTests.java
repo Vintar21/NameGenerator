@@ -9,6 +9,9 @@ import static name.generator.utils.TestsUtils.THOUSAND_NAMES_WORDS_EXPECTED;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.MethodOrderer;
@@ -27,12 +30,12 @@ public class SimpleTests {
 	@Test
 	@Order(1)
 	public void generate1000NamesNumberStrategy() {
-		LOGGER.info("----- generate1000NamesNumberStrategy -----");
+		info("----- generate1000NamesNumberStrategy -----");
 		var addNumberNameGenerator = ANameGeneratorStrategyBuilder.getInstance().wordsByName(1)
 				// If you change the seed you will have to change the expected result
 				.setSeed(TEST_SEED).setStrategy(ENameGenerationStrategy.ADD_NUMBER).build();
 		var result = addNumberNameGenerator.generateRandomNames(1000);
-		result.stream().forEach(LOGGER::debug);
+		debug(result);
 		// Result will change if you execute this test method alone
 		assertIterableEquals(result, THOUSAND_NAMES_NUMBER_EXPECTED);
 	}
@@ -45,7 +48,7 @@ public class SimpleTests {
 				// If you change the seed you will have to change the expected result
 				.setSeed(TEST_SEED).setStrategy(ENameGenerationStrategy.ADD_WORD).build();
 		var result = addWordNameGenerator.generateRandomNames(1000);
-		result.stream().forEach(LOGGER::debug);
+		debug(result);
 		// Result will change if you execute this test method alone
 		assertIterableEquals(result, THOUSAND_NAMES_WORDS_EXPECTED);
 	}
@@ -53,15 +56,12 @@ public class SimpleTests {
 	@Test
 	@Order(3)
 	public void replace100NamesNumberStrategy() {
-		LOGGER.info("----- replace100NamesNumberStrategy -----");
+		info("----- replace100NamesNumberStrategy -----");
 		var addNumberNameGenerator = ANameGeneratorStrategyBuilder.getInstance().wordsByName(1)
 				// If you change the seed you will have to change the expected result
 				.setSeed(TEST_SEED).setStrategy(ENameGenerationStrategy.ADD_NUMBER).build();
 		var result = addNumberNameGenerator.generateNewRandomNames(INITIAL_NAMES);
-
-		result.entrySet().stream()
-				.forEach(e -> LOGGER.debug(String.format("\"%s\" --> \"%s\",", e.getKey(), e.getValue())));
-
+		debug(result);
 		// Result will change if you execute this test method alone
 		assertEquals(result, REPLACED_NAMES_NUMBER);
 	}
@@ -69,14 +69,30 @@ public class SimpleTests {
 	@Test
 	@Order(4)
 	public void replace100NamesWordStrategy() {
-		LOGGER.info("----- replace100NamesWordStrategy -----");
+		info("----- replace100NamesWordStrategy -----");
 		var addNumberNameGenerator = ANameGeneratorStrategyBuilder.getInstance().wordsByName(1)
 				// If you change the seed you will have to change the expected result
 				.setSeed(TEST_SEED).setStrategy(ENameGenerationStrategy.ADD_WORD).build();
 		var result = addNumberNameGenerator.generateNewRandomNames(INITIAL_NAMES);
-		result.entrySet().stream().forEach(e -> LOGGER.debug(String
-				.format("new AbstractMap.SimpleEntry<String, String>(\"%s\", \"%s\"),", e.getKey(), e.getValue())));
+		debug(result);
 		// Result will change if you execute this test method alone
 		assertEquals(result, REPLACED_NAMES_WORD);
+	}
+
+	private void info(String message) {
+		LOGGER.info(message);
+	}
+
+	private void debug(String message) {
+		LOGGER.debug(message);
+	}
+
+	private void debug(Map<String, String> map) {
+		map.entrySet().stream()
+				.forEach(e -> LOGGER.debug(String.format("\"%s\" --> \"%s\"),", e.getKey(), e.getValue())));
+	}
+
+	private void debug(Set<String> list) {
+		list.stream().forEach(LOGGER::debug);
 	}
 }
